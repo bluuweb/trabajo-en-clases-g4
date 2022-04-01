@@ -14,8 +14,9 @@ const pool = process.env.DATABASE_URL
 const getUsersDB = async () => {
     const client = await pool.connect();
     try {
-        const respuesta = await client.query("SELECT * FROM users");
-        console.log(respuesta);
+        const respuesta = await client.query(
+            "SELECT nombre, id, email, foto FROM users"
+        );
         return {
             ok: true,
             users: respuesta.rows,

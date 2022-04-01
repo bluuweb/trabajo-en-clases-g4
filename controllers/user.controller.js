@@ -6,9 +6,9 @@ const path = require("path");
 const getUsers = async (req, res) => {
     const respuesta = await getUsersDB();
     if (!respuesta.ok) {
-        return res.status(500).json({ msg: respuesta.msg });
+        return res.status(500).json({ ok: false, msg: respuesta.msg });
     }
-    return res.json({ users: respuesta.users });
+    return res.json({ ok: true, users: respuesta.users });
 };
 
 const createUser = async (req, res) => {

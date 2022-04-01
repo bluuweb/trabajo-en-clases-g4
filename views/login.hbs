@@ -1,0 +1,53 @@
+<h1>Login</h1>
+<form id="formulario">
+    <input
+      type="email"
+      placeholder="Ingrese email"
+      value="dexter1@test.com"
+      class="form-control mb-2"
+      name="email"
+    >
+    <input
+      type="password"
+      placeholder="Ingrese contraseña"
+      value="123123"
+      class="form-control mb-2"
+      name="password"
+    >
+    <button class="btn btn-primary" type="submit">Acceder</button>
+</form>
+
+<script>
+
+    const formulario = document.getElementById('formulario')
+
+    formulario.addEventListener('submit', async(e) => {
+        e.preventDefault()
+
+        const formData = new FormData(formulario)
+
+        // para validar los datos
+        //const [email, password] = [...datos.values()]
+
+        try {
+
+            const res = await fetch('/api/v1/login', {
+                method: 'post',
+                body: formData
+            })
+
+            const data = await res.json()
+            if(!data.ok){
+                return alert(data.msg)
+            }
+
+            localStorage.setItem('token', data.token)
+            window.location.href = "/"
+
+        }catch(error){
+            console.log(error)
+        }
+
+    })
+
+</script>
