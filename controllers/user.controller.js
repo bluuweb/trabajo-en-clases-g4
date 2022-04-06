@@ -1,6 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { getUsersDB, createUserDB, getUserDB } = require("../database/db");
+const {
+    getUsersDB,
+    createUserDB,
+    getUserDB,
+    getUserID,
+} = require("../database/db");
 const path = require("path");
 
 const getUsers = async (req, res) => {
@@ -9,6 +14,16 @@ const getUsers = async (req, res) => {
         return res.status(500).json({ ok: false, msg: respuesta.msg });
     }
     return res.json({ ok: true, users: respuesta.users });
+};
+
+const getUser = async (req, res) => {
+    console.log(req.id);
+    const respuesta = await getUserID(req.id);
+    console.log(respuesta);
+    return res.json({
+        ok: true,
+        user: respuesta.user,
+    });
 };
 
 const createUser = async (req, res) => {
@@ -86,6 +101,14 @@ const loginUser = async (req, res) => {
             expiresIn: "1h",
         });
 
+        // return res
+        //     .cookie("token", token, {
+        //         httpOnly: true,
+        //         secure: process.env.NODE_ENV === "production",
+        //     })
+        //     .status(200)
+        //     .json({ ok: true, token });
+
         return res.json({
             ok: true,
             token,
@@ -103,4 +126,5 @@ module.exports = {
     getUsers,
     createUser,
     loginUser,
+    getUser,
 };

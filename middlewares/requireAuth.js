@@ -7,7 +7,8 @@ const requireAuth = (req, res, next) => {
         }
 
         const token = req.headers.authorization.split(" ")[1];
-
+        // const token = req.cookies?.token;
+        // console.log(token);
         if (!token) {
             throw new Error("Formato no válido utilizar Bearer");
         }
@@ -15,6 +16,7 @@ const requireAuth = (req, res, next) => {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
 
         req.id = payload.id;
+        console.log(req.id);
         next();
     } catch (error) {
         if (error.message === "jwt malformed") {

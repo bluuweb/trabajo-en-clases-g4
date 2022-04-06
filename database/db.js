@@ -64,6 +64,31 @@ const createUserDB = async ({ nombre, email, hashPassword, pathFoto }) => {
     }
 };
 
+const getUserID = async (id) => {
+    const client = await pool.connect();
+
+    const query = {
+        text: "SELECT * FROM users WHERE id = $1",
+        values: [id],
+    };
+
+    try {
+        const respuesta = await client.query(query);
+        return {
+            ok: true,
+            user: respuesta.rows[0],
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            ok: false,
+            msg: error.message,
+        };
+    } finally {
+        client.release();
+    }
+};
+
 const getUserDB = async (email) => {
     const client = await pool.connect();
 
@@ -93,4 +118,5 @@ module.exports = {
     getUsersDB,
     createUserDB,
     getUserDB,
+    getUserID,
 };

@@ -1,7 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const { create } = require("express-handlebars");
+const cookieParser = require("cookie-parser");
+
 const app = express();
+app.use(cookieParser());
 
 // habilitar req.body
 app.use(express.json());

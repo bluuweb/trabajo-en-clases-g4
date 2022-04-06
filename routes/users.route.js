@@ -4,6 +4,7 @@ const {
     getUsers,
     createUser,
     loginUser,
+    getUser,
 } = require("../controllers/user.controller");
 const { requireAuth } = require("../middlewares/requireAuth");
 const { requireDatos } = require("../middlewares/requireDatos");
@@ -19,6 +20,7 @@ router.use(
 router.get("/users", requireAuth, getUsers);
 router.post("/users", requireDatos, createUser);
 router.post("/login", loginUser);
+router.get("/perfil", requireAuth, getUser);
 // router.put("/users/:id", requireAuth, updateUser);
 // router.delete("/users/:id", requireAuth, deleteUser);
 

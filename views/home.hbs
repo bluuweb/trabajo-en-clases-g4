@@ -4,46 +4,38 @@
     Loading data
 </div>
 
+<div>
+    <a href="/perfil">Editar perfil</a>
+</div>
+
 <script>
-    const app = document.getElementById('app')
+    const app = document.getElementById("app");
 
-    const pintarDatos = (users) => {
-        app.innerHTML = ''
-        users.forEach(user => {
+    const pintarDatos = (data) => {
+        data.forEach((item) => {
             app.innerHTML += `
-            <div class="alert alert-primary">${user.email}</div>
-            `
-        })
-    }
+            <div class="alert alert-primary">
+                ${item.nombre} - ${item.email} 
+            </div>
+            `;
+        });
+    };
 
-    document.addEventListener('DOMContentLoaded', async() => {
-
-        if(!localStorage.getItem('token')){
-            window.location.href = "/login"
+    window.document.addEventListener("DOMContentLoaded", async () => {
+        if (!localStorage.getItem("token")) {
+            window.location.href = "/login";
         }
-        
-        try {
-
-            const res = await fetch('/api/v1/users', {
-                method: 'get',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            })
-
-            const data = await res.json()
-            console.log(data)
-            if(!data.ok){
-                window.location.href = "/login"
-            }
-
-            pintarDatos(data.users)
-
-        }catch(e){
-            console.log(e)
+        const res = await fetch("/api/v1/users", {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
+        const data = await res.json();
+        console.log(data);
+        if (!data.ok) {
+            window.location.href = "/login";
         }
-
-    })
-    
+        pintarDatos(data.users);
+    });
 
 </script>
